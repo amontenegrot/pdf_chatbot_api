@@ -11,7 +11,7 @@ from typing import List, Any, Callable
 
 class ChatBot:
     """
-    A class to represent a ChatBot that use a GPT model and a QA chain to answer questions based on a PDF document.
+    A Superclass to represent a ChatBot that use a GPT model and a QA chain to answer questions based on a PDF document.
     """
     gpt_model = 'gpt-3.5-turbo-0125'
     llm = ChatOpenAI(model_name=gpt_model)
@@ -44,7 +44,7 @@ class ChatBot:
         pdf_reader = PdfReader(self.pdf_file_obj)
 
         text = "".join(page.extract_text() for page in pdf_reader.pages)
-        del pdf_file_obj, pdf_reader  # Delete variables to free memory
+        # del pdf_file_obj, pdf_reader  # Delete variables to free memory
         
         return text
 
