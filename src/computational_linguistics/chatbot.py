@@ -58,7 +58,7 @@ class ChatBot:
 
         return knowledge_base
     
-    def get_embeddings(self) -> str: #revisar el typing y la docstring
+    def get_embeddings(self) -> list: #revisar el typing y la docstring
         knowledge_base = self.__embedding_generator()
         # Busqueda de párrafos similares
         docs = knowledge_base.similarity_search(self.question, self.num_chunks_see)
@@ -67,13 +67,12 @@ class ChatBot:
     
     def system_qa(self):
         # Busqueda de párrafos similares
-        docs = self.get_embeddings(self.question, self.num_chunks_see)
+        docs = self.get_embeddings()
 
         # Utilizar los parrafos similares para darle contexto a ChatGPT
         answer = self.chain.run(input_documents=docs, question=self.question)
         
         return answer
-        # print(f'Respuesta ChatGPT:\n\t {answer}')
     
     def calculate_cost(self):
         docs = self.get_embeddings(self.question, self.num_chunks_see)
@@ -82,18 +81,3 @@ class ChatBot:
             response = self.chain.run(input_documents=docs, question=self.question)
             return cb
         
-class SmallBot(ChatBot):
-    embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'  # 471M
-    gpt_model = 'gpt-3.5-turbo-0125'
-
-class MediumBot:
-    embedding_model = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'  # 1.11G
-    gpt_model = 'gpt-3.5-turbo-0125'
-
-class LargeBot:
-    embedding_model = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'  # 1.11G
-    gpt_model = 'gpt-3.5-turbo-instruct'
-
-class ExtraLargeBot:
-    embedding_model = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'  # 1.11G
-    gpt_model = 'gpt-4-32k'
