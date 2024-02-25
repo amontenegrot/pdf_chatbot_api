@@ -136,7 +136,7 @@ class ChatBot:
         Returns:
             Callable: A callback function from the OpenAI API.
         """
-        docs = self.get_embeddings(self.question, self.num_chunks_see)
+        docs = self.get_embeddings()
 
         with get_openai_callback() as cb:
             response = self.chain.run(input_documents=docs, question=self.question)

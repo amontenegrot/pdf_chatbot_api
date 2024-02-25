@@ -9,15 +9,15 @@ st.header('ChatPDF')
 
 chunk_size: int = st.slider(
     'Tamaño de las fracciones del texto:',
-    min_value=100, max_value=1000
+    min_value=100, max_value=1000, value=500
     )
 chunk_overlap: int = st.slider(
     'Tamaño de solapamientos entre fracciones de texto:',
-    min_value=10, max_value=100
+    min_value=10, max_value=100, value=30
     )
 
 num_chunks_see = st.slider('Número de fracciones a contemplar:',
-    min_value=1, max_value=10
+    min_value=1, max_value=10, value=2
     )
 
 OPENAI_API_KEY = st.text_input(
@@ -42,4 +42,7 @@ if pdf_file_obj:
     )
 
     answer = chat_pdf.system_qa()
+    cost = chat_pdf.calculate_cost()
+
     st.write(answer)
+    st.write(cost)
