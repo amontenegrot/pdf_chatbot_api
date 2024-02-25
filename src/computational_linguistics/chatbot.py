@@ -16,9 +16,9 @@ class ChatBot:
     llm = ChatOpenAI(model_name=gpt_model)
     chain = load_qa_chain(llm, chain_type='stuff')
 
-    def __init__(self, pdf_path: str, chunk_size: int, chunk_overlap: int, 
+    def __init__(self, pdf_file_obj, chunk_size: int, chunk_overlap: int, 
                  num_chunks_see: int, question: str):
-        self.pdf_path = pdf_path
+        self.pdf_file_obj = pdf_file_obj
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.num_chunks_see = num_chunks_see
@@ -26,13 +26,13 @@ class ChatBot:
 
     def __pdf_text_extractor(self)->str: #revisar el typing y la docstring
         # Read pdf
-        pdf_file_obj = open(self.pdf_path, 'rb')
-        pdf_reader = PdfReader(pdf_file_obj)
+        # pdf_file_obj = open(self.pdf_path, 'rb')
+        pdf_reader = PdfReader(self.pdf_file_obj)
 
         text = "".join(page.extract_text() for page in pdf_reader.pages)
 
-        pdf_file_obj.close()  # Free up system resources
-        del pdf_file_obj, pdf_reader  # Delete variables to free memory
+        # pdf_file_obj.close()  # Free up system resources
+        # del pdf_file_obj, pdf_reader  # Delete variables to free memory
         
         return text
 
