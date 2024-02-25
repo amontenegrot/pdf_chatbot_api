@@ -1,3 +1,5 @@
-from computational_linguistics.chatbot import SmallBot 
-
-# 'metodo' es una función que se encuentra en un archivo llamado 'archivo.py'
+from computational_linguistics.chatbot import ChatBot
+from computational_linguistics.smallbot import SmallBot
+from computational_linguistics.mediumbot import MediumBot
+from computational_linguistics.largebot import LargeBot
+from computational_linguistics.extralargebot import ExtraLargeBot
