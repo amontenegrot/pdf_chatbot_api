@@ -1,3 +1,5 @@
+from typing import List, Any, Callable
+
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -6,7 +8,6 @@ from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
-from typing import List, Any, Callable
 
 
 class ChatBot:
@@ -36,7 +37,7 @@ class ChatBot:
         self.num_chunks_see = num_chunks_see
         self.question = question
 
-    def __pdf_text_extractor(self) -> str: #revisar el typing y la docstring
+    def __pdf_text_extractor(self) -> str:
         """
         This method extracts the text from the PDF file associated with the ChatBot class object.
         Returns:
@@ -45,7 +46,6 @@ class ChatBot:
         pdf_reader = PdfReader(self.pdf_file_obj)
 
         text = "".join(page.extract_text() for page in pdf_reader.pages)
-        # del pdf_file_obj, pdf_reader  # Delete variables to free memory
         
         return text
 
@@ -83,7 +83,6 @@ class ChatBot:
             Any: A FAISS knowledge base created from the embeddings of the chunks of text.
         """
         embeddings = HuggingFaceEmbeddings(model_name=self.embedding_model)
-        # model = SentenceTransformer(self.embedding_model)
         chunks: List[str] = self.__chunks_generator()
 
         knowledge_base: Any = FAISS.from_texts(chunks, embeddings)
