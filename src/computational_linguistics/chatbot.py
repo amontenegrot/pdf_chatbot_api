@@ -13,6 +13,7 @@ class ChatBot:
     """
     A Superclass to represent a ChatBot that use a GPT model and a QA chain to answer questions based on a PDF document.
     """
+    embedding_model = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'  # 471M
     gpt_model = 'gpt-3.5-turbo-0125'
     llm = ChatOpenAI(model_name=gpt_model)
     chain = load_qa_chain(llm, chain_type='stuff')
@@ -82,7 +83,7 @@ class ChatBot:
             Any: A FAISS knowledge base created from the embeddings of the chunks of text.
         """
         embeddings = HuggingFaceEmbeddings(model_name=self.embedding_model)
-        model = SentenceTransformer(self.embedding_model)  #revisar si esta linea hace algo o solo es usada para probar los embedings
+        # model = SentenceTransformer(self.embedding_model)
         chunks: List[str] = self.__chunks_generator()
 
         knowledge_base: Any = FAISS.from_texts(chunks, embeddings)
