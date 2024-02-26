@@ -33,16 +33,17 @@ pdf_file_obj = st.file_uploader(
 if pdf_file_obj:
     os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
     question = st.text_input('Realice su pregunta:')
-    chat_pdf = SmallBot(
-        pdf_file_obj=pdf_file_obj,
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        num_chunks_see=num_chunks_see,
-        question=question
-    )
+    if question:
+        chat_pdf = SmallBot(
+            pdf_file_obj=pdf_file_obj,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            num_chunks_see=num_chunks_see,
+            question=question
+        )
 
-    answer = chat_pdf.system_qa()
-    cost = chat_pdf.calculate_cost()
+        answer = chat_pdf.system_qa()
+        cost = chat_pdf.calculate_cost()
 
-    st.write(answer)
-    st.write(cost)
+        st.write(answer)
+        st.write(cost)
